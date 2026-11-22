@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Salsa ❤️</title>
+
+<style>
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+body{
+ font-family:Georgia,serif;
+ background:#0F0A1E;
+ color:#fff;
+ overflow:hidden;
+ height:100vh;
+}
+
+button{
+ cursor:pointer;
+ border:none;
+ font-family:Georgia,serif;
+}
+
+button:active{
+ transform:scale(.96);
+}
+
+.stars{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:1;
+}
+
+.star{
+ position:absolute;
+ width:2px;
+ height:2px;
+ background:#fff;
+ border-radius:50%;
+ animation:twinkle 2s infinite;
+}
+
+@keyframes twinkle{
+ 0%,100%{opacity:.2}
+ 50%{opacity:1}
+}
+
+.falling{
+ position:absolute;
+ font-size:18px;
+ animation:fall 4s linear forwards;
+ opacity:.9;
+ pointer-events:none;
+}
+
+@keyframes fall{
+ to{
+  transform:translateY(110vh) rotate(360deg);
+  opacity:0;
+ }
+}
+
+.page{
+ position:fixed;
+ inset:0;
+ display:none;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ text-align:center;
+ z-index:10;
+ overflow-y:auto;
+}
+
+.page.show{
+ display:flex;
+}
+
+h1{
+ font-size:32px;
+ line-height:1.2;
+ text-shadow:0 0 20px #EC4899;
+}
+
+h1 span{
+ color:#FBBF24;
+}
+
+p{
+ font-size:15px;
+ line-height:1.7;
+ opacity:.9;
+ margin-top:10px;
+}
+
+.btn{
+ margin-top:20px;
+ background:linear-gradient(90deg,#EC4899,#8B5CF6);
+ color:#fff;
+ padding:14px 28px;
+ border-radius:999px;
+ font-weight:900;
+ font-size:15px;
+ box-shadow:0 6px 20px rgba(236,72,153,.5);
+}
+
+.btn-gold{
+ background:linear-gradient(90deg,#FBBF24,#F59E0B);
+ color:#000;
+}
+
+.btn-white{
+ background:#fff;
+ color:#111;
+}
+
+.envelope{
+ width:280px;
+ height:190px;
+ background:#FDE68A;
+ border-radius:16px;
+ position:relative;
+ cursor:pointer;
+ box-shadow:0 15px 40px rgba(0,0,0,.5);
+ margin:20px 0;
+ transition:.5s;
+}
+
+.envelope:hover{
+ transform:scale(1.03) rotate(-1deg);
+}
+
+.envelope-top{
+ position:absolute;
+ top:0;
+ left:0;
+ right:0;
+ height:95px;
+ background:#F59E0B;
+ clip-path:polygon(0 0,100% 0,50% 100%);
+ border-radius:16px 16px 0 0;
+ transition:.6s;
+ transform-origin:top;
+ z-index:2;
+}
+
+.envelope.open .envelope-top{
+ transform:rotateX(180deg);
+ opacity:0;
+}
+
+.envelope-body{
+ position:absolute;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+}
+
+.heart{
+ font-size:56px;
+ animation:beat 1s infinite;
+}
+
+@keyframes beat{
+ 0%,100%{transform:scale(1)}
+ 50%{transform:scale(1.2)}
+}
+
+.seal{
+ position:absolute;
+ bottom:14px;
+ left:50%;
+ transform:translateX(-50%);
+ background:#DC2626;
+ color:#fff;
+ width:48px;
+ height:48px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:22px;
+ border:3px solid #fff;
+ z-index:3;
+}
+
+.letter-box{
+ width:100%;
+ max-width:420px;
+ background:#FFFBEB;
+ color:#111;
+ border-radius:16px;
+ padding:22px;
+ text-align:left;
+ max-height:62vh;
+ overflow-y:auto;
+ box-shadow:0 15px 40px rgba(0,0,0,.5);
+ position:relative;
+}
+
+.letter-box::before{
+ content:"";
+ position:absolute;
+ top:0;
+ left:0;
+ right:0;
+ height:6px;
+ background:linear-gradient(90deg,#EC4899,#FBBF24,#8B5CF6);
+ border-radius:16px 16px 0 0;
+}
+
+.letter-text{
+ font-size:15px;
+ line-height:1.85;
+ white-space:pre-wrap;
+ min-height:200px;
+}
+
+.cursor{
+ display:inline-block;
+ width:2px;
+ height:18px;
+ background:#111;
+ animation:blink 1s infinite;
+ vertical-align:middle;
+}
+
+@keyframes blink{
+ 0%,100%{opacity:1}
+ 50%{opacity:0}
+}
+
+.photo-row{
+ display:flex;
+ gap:8px;
+ overflow-x:auto;
+ margin:12px 0;
+}
+
+.photo-row div{
+ width:90px;
+ height:110px;
+ background:#FDE68A;
+ border-radius:12px;
+ flex-shrink:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:30px;
+ border:2px solid #fff;
+}
+
+.choice{
+ display:flex;
+ gap:10px;
+ margin-top:16px;
+ flex-wrap:wrap;
+ justify-content:center;
+}
+
+.choice button{
+ padding:12px 20px;
+ border-radius:999px;
+ font-weight:900;
+ font-size:14px;
+}
+
+#noBtn{
+ position:relative;
+ transition:.3s;
+}
+
+.progress{
+ width:100%;
+ max-width:420px;
+ height:6px;
+ background:rgba(255,255,255,.2);
+ border-radius:999px;
+ overflow:hidden;
+ margin-top:14px;
+}
+
+.progress div{
+ height:100%;
+ background:linear-gradient(90deg,#EC4899,#FBBF24);
+ width:0%;
+ transition:.3s;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIK BACKGROUND -->
+<audio id="bgMusic" loop preload="auto">
+ <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<div class="stars" id="stars"></div>
+
+<!-- HALAMAN 1 -->
+
+<div class="page show" id="p1">
+
+ <p style="font-size:28px">✨</p>
+
+ <h1>
+ Hai <span>SALSA</span>...<br>
+ Ada Sesuatu<br>
+ Buat Kamu
+ </h1>
+
+ <p>
+ Aku bikin ini khusus buat kamu, Salsa.<br>
+ Bukan yang mahal, tapi yang tulus.<br><br>
+ Siap buka?
+ </p>
+
+ <button class="btn" onclick="goPage(2)">
+ 💌 Buka Suratnya ➡️
+ </button>
+
+ <p style="font-size:13px;margin-top:14px">
+ 🎵 Ada lagu khusus buat kamu, Salsa ❤️
+ </p>
+
+</div>
+
+<!-- HALAMAN 2 -->
+
+<div class="page" id="p2">
+
+ <h1 style="font-size:26px">
+ Sebelum Buka Suratnya...<br>
+ <span>Salsa Lagi Ngerasain Apa?</span>
+ </h1>
+
+ <p>Pilih yang paling jujur ya, aku pengen tau.</p>
+
+ <div class="choice">
+
+  <button style="background:#EC4899;color:#fff"
+  onclick="feeling('Kangen')">
+  🥺 Kangen
+  </button>
+
+  <button style="background:#FBBF24;color:#000"
+  onclick="feeling('Capek')">
+  😮‍💨 Capek
+  </button>
+
+  <button style="background:#8B5CF6;color:#fff"
+  onclick="feeling('Ngambek')">
+  😤 Ngambek
+  </button>
+
+  <button style="background:#14B8A6;color:#fff"
+  onclick="feeling('Bosen')">
+  😐 Bosen
+  </button>
+
+ </div>
+
+ <div id="feelingMsg"
+ style="display:none;background:rgba(255,255,255,.1);padding:14px;border-radius:14px;margin-top:16px;max-width:420px">
+ </div>
+
+ <button class="btn"
+ id="toEnvelope"
+ style="display:none"
+ onclick="goPage(3)">
+ Lanjut Ke Amplop 💌
+ </button>
+
+</div>
+
+<!-- HALAMAN 3 -->
+
+<div class="page" id="p3">
+
+ <h1 style="font-size:26px">
+ Ini Suratnya...<br>
+ <span>Klik Amplopnya Ya Salsa</span>
+ </h1>
+
+ <p>
+ Amplop ini isinya semua yang<br>
+ gak bisa aku omongin langsung.
+ </p>
+
+ <div class="envelope"
+ id="envelope"
+ onclick="openEnvelope()">
+
+  <div class="envelope-top"></div>
+
+  <div class="envelope-body">
+
+   <div class="heart">❤️</div>
+
+   <b style="color:#7C2D12;margin-top:6px">
+   UNTUK SALSA
+   </b>
+
+   <span style="font-size:11px;color:#92400E">
+   Dari cowok yang sayang kamu
+   </span>
+
+  </div>
+
+  <div class="seal">💌</div>
+
+ </div>
+
+ <p style="font-size:12px;opacity:.7">
+ 👆 Klik amplopnya
+ </p>
+
+</div>
+
+<!-- HALAMAN 4 -->
+
+<div class="page" id="p4">
+
+ <div class="letter-box">
+
+  <p style="font-size:12px;color:#888;text-align:right">
+  Bandung, Hari Ini ❤️
+  </p>
+
+  <h2 style="font-size:20px;margin:6px 0">
+  Untuk Salsa, yang paling aku sayang...
+  </h2>
+
+  <div class="letter-text" id="letterText"></div>
+
+  <span class="cursor" id="cursor"></span>
+
+  <div class="photo-row" id="photoRow" style="display:none">
+   <div>📸</div>
+   <div>❤️</div>
+   <div>🥰</div>
+   <div>🌹</div>
+  </div>
+
+  <p style="font-size:12px;color:#888;margin-top:10px;text-align:right">
+  - Dari cowokmu yang selalu sayang kamu -
+  </p>
+
+ </div>
+
+ <div class="progress">
+  <div id="progressBar"></div>
+ </div>
+
+ <button class="btn"
+ id="afterLetter"
+ style="display:none"
+ onclick="goPage(5)">
+ Udah Baca? Lanjut ➡️
+ </button>
+
+</div>
+
+<!-- HALAMAN 5 -->
+
+<div class="page" id="p5">
+
+ <p style="font-size:50px">🥺❤️</p>
+
+ <h1>
+ Terakhir...<br>
+ <span>Salsa, Mau Gak Jadi<br>Pacar Aku Selamanya?</span>
+ </h1>
+
+ <p>
+ Bukan cuma hari ini.<br>
+ Bukan cuma pas lagi seneng.<br>
+ Tapi pas lagi ngambek, pas lagi capek,
+ pas lagi gak pengen ngomong sama siapa-siapa pun,
+ aku tetep pilih kamu, Salsa.
+ </p>
+
+ <div class="choice">
+
+  <button
+  style="background:#EC4899;color:#fff;padding:14px 26px;font-size:16px"
+  onclick="yesAnswer()">
+  MAU! ❤️
+  </button>
+
+  <button
+  id="noBtn"
+  style="background:#fff;color:#111"
+  onmouseover="moveNo()"
+  onclick="moveNo()">
+  Gak Mau 🙄
+  </button>
+
+ </div>
+
+ <p id="noMsg" style="font-size:12px;color:#FBBF24"></p>
+
+</div>
+
+<!-- HALAMAN 6 -->
+
+<div class="page" id="p6">
+
+ <p style="font-size:60px">🎉❤️🥰</p>
+
+ <h1>YEEEY! <span>MAKASIH YA SALSA!</span></h1>
+
+ <p>
+ Aku janji, aku gak akan janji gak akan berantem.<br>
+ Tapi aku janji gak akan nyerah.<br><br>
+
+ Kita udah bareng <b id="daysCount">0</b>
+ hari di hati aku.<br>
+
+ Dan aku mau nambah terus sampe ribuan hari lagi.
+ </p>
+
+ <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center">
+
+  <button class="btn btn-gold" onclick="sendWA()">
+  📱 Kirim Balasan Ke Aku (WA)
+  </button>
+
+  <button class="btn btn-white" onclick="goPage(1)">
+  🔄 Baca Lagi Dari Awal
+  </button>
+
+ </div>
+
+ <p style="font-size:11px;margin-top:12px;opacity:.6">
+ Dibuat dengan sayang, khusus buat Salsa ❤️<br>
+ 🎵 Teh Hijau - Tulus
+ </p>
+
+</div>
+
+<script>
+
+// BINTANG
+var starsEl=document.getElementById('stars');
+
+for(var i=0;i<60;i++){
+
+ var s=document.createElement('div');
+
+ s.className='star';
+
+ s.style.left=Math.random()*100+'%';
+ s.style.top=Math.random()*100+'%';
+
+ s.style.animationDelay=(Math.random()*2)+'s';
+
+ starsEl.appendChild(s);
+
+}
+
+
+// ANIMASI JATUH
+function fallingStars(){
+
+ var emojis=['✨','⭐','❤️','🌹','💫','🍵'];
+
+ var el=document.createElement('div');
+
+ el.className='falling';
+
+ el.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+
+ el.style.left=Math.random()*95+'%';
+ el.style.top='-20px';
+
+ document.body.appendChild(el);
+
+ setTimeout(function(){
+  el.remove();
+ },4000);
+
+}
+
+setInterval(fallingStars,800);
+
+
+// SISTEM MUSIK OTOMATIS
+var musicStarted=false;
+
+function startMusic(){
+
+ if(musicStarted)return;
+
+ var music=document.getElementById('bgMusic');
+
+ music.volume=0.8;
+
+ var playPromise=music.play();
+
+ if(playPromise!==undefined){
+
+  playPromise.then(function(){
+
+   musicStarted=true;
+
+  }).catch(function(error){
+
+   console.log("Musik gagal diputar:",error);
+
+  });
+
+ }
+
+}
+
+
+// NAVIGASI HALAMAN
+function goPage(n){
+
+ var pages=document.querySelectorAll('.page');
+
+ for(var i=0;i<pages.length;i++){
+
+  pages[i].classList.remove('show');
+
+ }
+
+ document.getElementById('p'+n).classList.add('show');
+
+ // MUSIK DIMULAI SAAT BUKA SURAT DITEKAN
+ if(n===2){
+
+  startMusic();
+
+ }
+
+ if(n===4){
+
+  startTyping();
+
+ }
+
+ if(n===6){
+
+  startDays();
+
+ }
+
+}
+
+
+// PILIH PERASAAN
+function feeling(f){
+
+ var msgs={
+
+ 'Kangen':
+ 'Kangen ya Salsa? Sama, aku juga kangen banget. Makanya aku bikin website ini, biar kalo kangen kamu bisa buka ini kapan aja ❤️',
+
+ 'Capek':
+ 'Capek ya Salsa? Sini istirahat dulu, gak usah mikir yang berat-berat. Ada aku disini, kamu gak sendirian kok 🫶',
+
+ 'Ngambek':
+ 'Ngambek sama aku ya Salsa? Maaf ya 😭 Aku janji bakal dengerin kamu sampe kamu gak ngambek lagi. Buka suratnya ya, ada maaf aku disana.',
+
+ 'Bosen':
+ 'Bosen? Yaudah Salsa, abis baca surat ini, chat aku ya. Kita cari kegiatan seru bareng, mau nongkrong? Mau jajan teh hijau? Aku temenin deh 😆'
+
+ };
+
+ var el=document.getElementById('feelingMsg');
+
+ el.style.display='block';
+
+ el.innerHTML='<b>Salsa pilih: '+f+'</b><br><br>'+msgs[f];
+
+ document.getElementById('toEnvelope').style.display='inline-block';
+
+}
+
+
+// AMPLOP
+function openEnvelope(){
+
+ document.getElementById('envelope').classList.add('open');
+
+ setTimeout(function(){
+
+  goPage(4);
+
+ },700);
+
+}
+
+
+// ISI SURAT
+var suratText = `Hai Salsa...
+
+Gimana kabar kamu hari ini? Aku harap kamu lagi baik-baik aja ya.
+
+Aku nulis surat ini karena ada banyak hal yang pengen aku omongin, tapi kalo ngomong langsung aku suka grogi, suka lupa mau ngomong apa. Jadi aku tulis aja disini.
+
+Pertama, makasih ya Salsa. Makasih udah mau kenal sama cowok nyebelin kayak aku. Makasih udah sabar ngadepin aku yang kadang suka ngambek gak jelas, kadang suka ilang-ilangan, kadang suka bercanda kelewatan.
+
+Kedua, aku mau kamu tau, aku tuh sayang banget sama kamu, Salsa. Bukan sayang yang cuma di kata-kata doang. Tapi sayang yang bikin aku mikirin kamu tiap bangun tidur, tiap mau tidur, tiap lagi makan, tiap lagi di jalan. Pokoknya tiap saat.
+
+Kamu tuh bikin hari-hari aku yang biasa aja jadi seru. Cuma chat sama kamu doang aja udah bisa bikin aku senyum-senyum sendiri kayak orang gila.
+
+Aku tau kita gak selalu mulus. Kita pernah berantem, pernah diem-dieman, pernah bikin satu sama lain kesel. Tapi tiap abis berantem, aku selalu mikir: aku gak mau kehilangan kamu, Salsa. Kamu terlalu berharga buat dilepas gitu aja.
+
+Jadi, aku mau janji satu hal. Aku gak janji kita gak akan berantem lagi. Tapi aku janji, aku gak akan nyerah. Aku akan tetep pilih kamu, tiap hari.
+
+Kamu mau kan, temenin aku terus, Salsa?
+
+I love you, Salsa. Lebih dari kemarin, kurang dari besok. Selalu kamu. ❤️
+
+P.S. Lagu ini buat kamu - Teh Hijau, biar hati kamu yang lagi capek jadi tenang lagi, kayak teh hijau yang di tangan. 🍵`;
+
+
+// ANIMASI MENGETIK
+var typed=false;
+
+function startTyping(){
+
+ if(typed)return;
+
+ typed=true;
+
+ var el=document.getElementById('letterText');
+
+ var bar=document.getElementById('progressBar');
+
+ var idx=0;
+
+ var timer=setInterval(function(){
+
+  if(idx>=suratText.length){
+
+   clearInterval(timer);
+
+   document.getElementById('cursor').style.display='none';
+
+   document.getElementById('photoRow').style.display='flex';
+
+   document.getElementById('afterLetter').style.display='inline-block';
+
+   return;
+
+  }
+
+  el.innerText+=suratText[idx];
+
+  idx++;
+
+  bar.style.width=(idx/suratText.length*100)+'%';
+
+  var box=el.parentElement;
+
+  box.scrollTop=box.scrollHeight;
+
+ },28);
+
+}
+
+
+// TOMBOL TIDAK
+var noCount=0;
+
+function moveNo(){
+
+ noCount++;
+
+ var btn=document.getElementById('noBtn');
+
+ var msgs=[
+  'Eh Salsa gak bisa kabur! 😆',
+  'Coba lagi deh',
+  'Gak kena!',
+  'Udah, pencet MAU aja',
+  'Yakin gak mau, Salsa?'
+ ];
+
+ document.getElementById('noMsg').innerText=
+ msgs[Math.min(noCount-1,msgs.length-1)];
+
+ btn.style.transform=
+ 'translate('+(Math.random()*80-40)+'px,'+
+ (Math.random()*40-20)+'px)';
+
+ if(noCount>=4){
+
+  btn.innerText='Yaudah MAU ❤️';
+
+  btn.onclick=function(){
+   yesAnswer();
+  };
+
+  btn.onmouseover=null;
+
+ }
+
+}
+
+
+// JAWABAN MAU
+function yesAnswer(){
+
+ for(var i=0;i<25;i++){
+
+  setTimeout(fallingStars,i*100);
+
+ }
+
+ goPage(6);
+
+}
+
+
+// HITUNG HARI
+function startDays(){
+
+ var start=new Date(2025,7,1);
+
+ var now=new Date();
+
+ var days=Math.floor(
+ (now-start)/(1000*60*60*24)
+ );
+
+ if(days<0)days=0;
+
+ document.getElementById('daysCount').innerText=days;
+
+}
+
+
+// WHATSAPP
+function sendWA(){
+
+ var no='6283176523902';
+
+ var msg=encodeURIComponent(
+ 'Aku udah baca suratnya 🥺❤️ Jawaban aku: MAU! Mau jadi pacar kamu selamanya! - Salsa'
+ );
+
+ window.open(
+ 'https://wa.me/'+no+'?text='+msg,
+ '_blank'
+ );
+
+}
+
+</script>
+
+</body>
+  </html>
